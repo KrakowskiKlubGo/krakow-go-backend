@@ -1,0 +1,57 @@
+from django.db import models
+
+
+class RuleSystem(models.TextChoices):
+    MAC_MAHON = "mac_mahon", "MacMahon"
+    SWISS = "swiss", "Swiss"
+    ROUND_ROBIN = "round_robin", "Round Robin"
+    SWISS_ROUND_ROBIN = "swiss_round_robin", "Swiss Round Robin"
+
+
+class TournamentClass(models.TextChoices):
+    A = "A", "A"
+    B = "B", "B"
+    C = "C", "C"
+    D = "D", "D"
+
+
+class PlayerRank(models.TextChoices):
+    EGF_9_DAN = "9_dan", "9 dan"
+    EGF_8_DAN = "8_dan", "8 dan"
+    EGF_7_DAN = "7_dan", "7 dan"
+    EGF_6_DAN = "6_dan", "6 dan"
+    EGF_5_DAN = "5_dan", "5 dan"
+    EGF_4_DAN = "4_dan", "4 dan"
+    EGF_3_DAN = "3_dan", "3 dan"
+    EGF_2_DAN = "2_dan", "2 dan"
+    EGF_1_DAN = "1_dan", "1 dan"
+    EGF_1_KYU = "1_kyu", "1 kyu"
+    EGF_2_KYU = "2_kyu", "2 kyu"
+    EGF_3_KYU = "3_kyu", "3 kyu"
+    EGF_4_KYU = "4_kyu", "4 kyu"
+    EGF_5_KYU = "5_kyu", "5 kyu"
+    EGF_6_KYU = "6_kyu", "6 kyu"
+    EGF_7_KYU = "7_kyu", "7 kyu"
+    EGF_8_KYU = "8_kyu", "8 kyu"
+    EGF_9_KYU = "9_kyu", "9 kyu"
+    EGF_10_KYU = "10_kyu", "10 kyu"
+    EGF_11_KYU = "11_kyu", "11 kyu"
+    EGF_12_KYU = "12_kyu", "12 kyu"
+    EGF_13_KYU = "13_kyu", "13 kyu"
+    EGF_14_KYU = "14_kyu", "14 kyu"
+    EGF_15_KYU = "15_kyu", "15 kyu"
+    EGF_16_KYU = "16_kyu", "16 kyu"
+    EGF_17_KYU = "17_kyu", "17 kyu"
+    EGF_18_KYU = "18_kyu", "18 kyu"
+    EGF_19_KYU = "19_kyu", "19 kyu"
+    EGF_20_KYU = "20_kyu", "20 kyu"
+    EGF_21_KYU = "21_kyu", "21 kyu"
+    EGF_22_KYU = "22_kyu", "22 kyu"
+    EGF_23_KYU = "23_kyu", "23 kyu"
+    EGF_24_KYU = "24_kyu", "24 kyu"
+    EGF_25_KYU = "25_kyu", "25 kyu"
+    EGF_26_KYU = "26_kyu", "26 kyu"
+    EGF_27_KYU = "27_kyu", "27 kyu"
+    EGF_28_KYU = "28_kyu", "28 kyu"
+    EGF_29_KYU = "29_kyu", "29 kyu"
+    EGF_30_KYU = "30_kyu", "30 kyu"
