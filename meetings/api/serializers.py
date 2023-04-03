@@ -3,11 +3,18 @@ from rest_framework import serializers
 from meetings.models import Meeting
 
 
+class MeetingListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meeting
+        fields = ("id", "name", "date", "start_time", "end_time", "address")
+
+
 class MeetingSerializer(serializers.ModelSerializer):
+    participants_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Meeting
         fields = (
-            "id",
             "name",
             "date",
             "start_time",

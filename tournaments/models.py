@@ -1,9 +1,10 @@
 from django.db import models
 
+from common.models import BaseModel
 from tournaments.const import RuleSystem, TournamentClass, PlayerRank
 
 
-class Tournament(models.Model):
+class Tournament(BaseModel):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to="images/", blank=True)
     start_date = models.DateField()
@@ -29,6 +30,7 @@ class Tournament(models.Model):
     address_map_link = models.URLField(
         null=True,
         blank=True,
+        max_length=400,
     )
     prizes = models.TextField(
         null=True,
@@ -101,12 +103,11 @@ class RegisteredPlayer(models.Model):
         related_name="registered_players",
     )
     timestamp = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=200, verbose_name="Name and surname")
+    first_name = models.CharField(max_length=200, verbose_name="First name")
+    last_name = models.CharField(max_length=200, verbose_name="Last name")
     rank = models.CharField(max_length=200, choices=PlayerRank.choices)
     city_club = models.CharField(max_length=200)
-    country = models.CharField(
-        max_length=200,
-    )
+    country = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(
         null=True,
         blank=True,

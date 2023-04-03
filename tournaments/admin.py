@@ -1,20 +1,23 @@
 from django.contrib import admin
+from model_clone import CloneModelAdmin
 
 from tournaments.models import Registration, Tournament, RegisteredPlayer
 
 
 class RegistrationInline(admin.TabularInline):
+    fk_name = "tournament"
     model = Registration
 
 
 class RegisteredPlayerInline(admin.TabularInline):
+    fk_name = "tournament"
     model = RegisteredPlayer
     readonly_fields = ("timestamp",)
     extra = 0
 
 
 @admin.register(Tournament)
-class TournamentAdmin(admin.ModelAdmin):
+class TournamentAdmin(CloneModelAdmin):
     list_display = (
         "name",
         "start_date",
@@ -29,8 +32,10 @@ class TournamentAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "name",
+                    "image",
                     "place",
                     "start_date",
+                    "end_date",
                     "is_draft",
                     "is_ended",
                     "organizer",

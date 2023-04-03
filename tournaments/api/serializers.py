@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from tournaments.const import PlayerRank
 from tournaments.models import Tournament, Registration, RegisteredPlayer
 
 
@@ -9,20 +10,26 @@ class TournamentListSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "start_date", "end_date")
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
+class RegistrationInfoSerializer(serializers.ModelSerializer):
+    registered_players = serializers.SerializerMethodField()
+    tournament_id = serializers.IntegerField(source="tournament.id")
+
     class Meta:
         model = Registration
-        fields = (
-            "end_date",
-            "player_limit",
-        )
+        fields = ("end_date", "player_limit", "registered_players", "tournament_id")
+
+    def get_registered_players(self, obj):
+        return obj.tournament.registered_players.count()
 
 
 class RegisteredPlayersSerializer(serializers.ModelSerializer):
+    rank = serializers.SerializerMethodField()
+
     class Meta:
         model = RegisteredPlayer
         fields = (
-            "name",
+            "first_name",
+            "last_name",
             "timestamp",
             "rank",
             "city_club",
@@ -31,16 +38,42 @@ class RegisteredPlayersSerializer(serializers.ModelSerializer):
             "egf_pid",
         )
 
+    def get_rank(self, obj):
+        return PlayerRank(obj.rank).label
 
-class TournamentSerializer(serializers.ModelSerializer):
-    registration = RegistrationSerializer()
-    registered_players = RegisteredPlayersSerializer(many=True)
 
+class CreateRegisteredPlayerSerializer(serializers.ModelSerializer):
+    tournament_id = serializers.PrimaryKeyRelatedField(
+        queryset=Tournament.objects.all(), write_only=True, source="tournament"
+    )
+
+    class Meta:
+        model = RegisteredPlayer
+        fields = (
+            "tournament_id",
+            "first_name",
+            "last_name",
+            "rank",
+            "city_club",
+            "country",
+            "email",
+            "phone",
+            "egf_pid",
+        )
+
+    def validate(self, attrs):
+        tournament = attrs["tournament"]
+        if tournament.is_ended:
+            raise serializers.ValidationError("Registration is closed.")
+        if tournament.is_draft:
+            raise serializers.ValidationError("Registration is closed.")
+        return attrs
+
+
+class TournamentInfo(serializers.ModelSerializer):
     class Meta:
         model = Tournament
         fields = (
-            "registration",
-            "registered_players",
             "name",
             "image",
             "place",
@@ -64,3 +97,20 @@ class TournamentSerializer(serializers.ModelSerializer):
             "handicap_rules",
             "time_control",
         )
+
+
+class TournamentSerializer(serializers.ModelSerializer):
+    registration_info = RegistrationInfoSerializer(source="registration")
+    registered_players = RegisteredPlayersSerializer(many=True)
+    tournament_info = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Tournament
+        fields = (
+            "registration_info",
+            "registered_players",
+            "tournament_info",
+        )
+
+    def get_tournament_info(self, obj):
+        return TournamentInfo(obj).data

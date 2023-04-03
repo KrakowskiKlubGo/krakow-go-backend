@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -17,17 +17,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-6t&q1%ogsd$7j5&o3@xfvb^p3sa+ca16!6kyo9sbd7yw!oj-(9"
+SECRET_KEY = "django-insecure-6t&q1%ogsd$7j5&o 3@xfvb^p3sa+ca16!6kyo9sbd7yw!oj-(9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
 
 # Application definition
 
-DJANGO_APPS = [
+ADMIN_MODIFICATION_APPS = [
     "jazzmin",
+    "model_clone",
+]
+
+
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -36,20 +45,26 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "corsheaders",
+]
 
 KRAKOW_GO_BACKEND_APPS = [
+    "common.apps.CommonConfig",
     "tournaments.apps.TournamentsConfig",
     "meetings.apps.MeetingsConfig",
     "sgfs.apps.SgfsConfig",
     "articles.apps.ArticlesConfig",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + KRAKOW_GO_BACKEND_APPS
+INSTALLED_APPS = (
+    ADMIN_MODIFICATION_APPS + DJANGO_APPS + THIRD_PARTY_APPS + KRAKOW_GO_BACKEND_APPS
+)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -62,7 +77,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["common/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -234,3 +249,11 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     "language_chooser": False,
 }
+
+# MEDIA
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_URL = "/media/"
+MAX_UPLOAD_FILE_SIZE = 250000000
