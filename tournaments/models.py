@@ -36,7 +36,10 @@ class Tournament(BaseModel):
         null=True,
         blank=True,
     )
-    fee = models.DecimalField(max_digits=12, decimal_places=2)
+    fee = models.TextField(
+        null=True,
+        blank=True,
+    )
     prepaid_option = models.BooleanField(default=False)
 
     # ruleset
@@ -87,6 +90,10 @@ class Registration(models.Model):
         null=True,
         blank=True,
     )
+    description = models.TextField(
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.tournament.name} - Registration"
@@ -105,7 +112,7 @@ class RegisteredPlayer(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=200, verbose_name="First name")
     last_name = models.CharField(max_length=200, verbose_name="Last name")
-    rank = models.CharField(max_length=200, choices=PlayerRank.choices)
+    rank = models.CharField(max_length=10, choices=PlayerRank.choices)
     city_club = models.CharField(max_length=200)
     country = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(

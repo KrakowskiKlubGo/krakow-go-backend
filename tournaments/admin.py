@@ -1,11 +1,11 @@
 from django.contrib import admin
-from model_clone import CloneModelAdmin
+from modeltranslation.admin import TranslationTabularInline
 
+from common.admin import CloneTranslationModelAdmin
 from tournaments.models import Registration, Tournament, RegisteredPlayer
 
 
-class RegistrationInline(admin.TabularInline):
-    fk_name = "tournament"
+class RegistrationInline(TranslationTabularInline):
     model = Registration
 
 
@@ -17,9 +17,9 @@ class RegisteredPlayerInline(admin.TabularInline):
 
 
 @admin.register(Tournament)
-class TournamentAdmin(CloneModelAdmin):
+class TournamentAdmin(CloneTranslationModelAdmin):
     list_display = (
-        "name",
+        "name_pl",
         "start_date",
         "place",
         "is_draft",

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from model_clone import CloneModelAdmin
 
+from common.admin import CloneTranslationModelAdmin
 from meetings.models import MeetingParticipant, Meeting
 
 
@@ -11,6 +12,6 @@ class MeetingParticipantInlinie(admin.TabularInline):
 
 
 @admin.register(Meeting)
-class MeetingAdmin(CloneModelAdmin):
-    list_display = ("name", "date", "start_time", "end_time")
+class MeetingAdmin(CloneTranslationModelAdmin):
+    list_display = ("name_pl", "date", "start_time", "end_time")
     inlines = [MeetingParticipantInlinie]
