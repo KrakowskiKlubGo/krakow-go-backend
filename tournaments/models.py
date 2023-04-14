@@ -23,6 +23,10 @@ class Tournament(BaseModel):
         null=True,
         blank=True,
     )
+    contact = models.TextField(
+        null=True,
+        blank=True,
+    )
     address = models.TextField(
         null=True,
         blank=True,
@@ -130,3 +134,21 @@ class RegisteredPlayer(models.Model):
         null=True,
         blank=True,
     )
+
+
+class ScheduledActivity(models.Model):
+    tournament = models.ForeignKey(
+        "tournaments.Tournament",
+        on_delete=models.CASCADE,
+        related_name="scheduled_activities",
+    )
+    date = models.DateField()
+    time = models.TimeField()
+    activity_name = models.CharField(max_length=400)
+
+    class Meta:
+        verbose_name = "Scheduled Activity"
+        verbose_name_plural = "Scheduled Activities"
+
+    def __str__(self):
+        return self.activity_name

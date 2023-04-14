@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from tournaments.models import Tournament, Registration
+from tournaments.models import Tournament, Registration, ScheduledActivity
 
 
 @register(Tournament)
@@ -15,9 +15,15 @@ class TournamentTranslationOptions(TranslationOptions):
         "fee",
         "game_rules",
         "handicap_rules",
+        "contact",
     )
 
 
 @register(Registration)
 class RegistrationTranslationOptions(TranslationOptions):
     fields = ("description",)
+
+
+@register(ScheduledActivity)
+class ScheduledActivityTranslationOptions(TranslationOptions):
+    fields = ("activity_name",)

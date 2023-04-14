@@ -1,7 +1,12 @@
 from rest_framework import serializers
 
-from tournaments.const import PlayerRank
-from tournaments.models import Tournament, Registration, RegisteredPlayer
+from tournaments.const import PlayerRank, RuleSystem
+from tournaments.models import (
+    Tournament,
+    Registration,
+    RegisteredPlayer,
+    ScheduledActivity,
+)
 
 
 class TournamentListSerializer(serializers.ModelSerializer):
@@ -23,8 +28,6 @@ class RegistrationInfoSerializer(serializers.ModelSerializer):
 
 
 class RegisteredPlayersSerializer(serializers.ModelSerializer):
-    rank = serializers.SerializerMethodField()
-
     class Meta:
         model = RegisteredPlayer
         fields = (
@@ -37,6 +40,8 @@ class RegisteredPlayersSerializer(serializers.ModelSerializer):
             "is_paid",
             "egf_pid",
         )
+
+    rank = serializers.SerializerMethodField()
 
     def get_rank(self, obj):
         return PlayerRank(obj.rank).label
@@ -70,21 +75,31 @@ class CreateRegisteredPlayerSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class TournamentInfo(serializers.ModelSerializer):
+class ScheduledActivitySerializer(serializers.ModelSerializer):
+    time = serializers.TimeField(format="%H:%M")
+
     class Meta:
-        model = Tournament
+        model = ScheduledActivity
         fields = (
-            "name",
-            "image",
-            "place",
-            "start_date",
-            "end_date",
+            "date",
+            "time",
+            "activity_name",
+        )
+
+
+class TournamentInfo(serializers.ModelSerializer):
+    scheduled_activities = ScheduledActivitySerializer(many=True)
+    rules_system = serializers.SerializerMethodField()
+
+    class Meta:
+        fields = (
             "is_draft",
             "is_ended",
             "organizer",
             "referee",
             "description",
             "additional_info",
+            "place",
             "address",
             "address_map_link",
             "prizes",
@@ -96,7 +111,13 @@ class TournamentInfo(serializers.ModelSerializer):
             "rounds",
             "handicap_rules",
             "time_control",
+            "scheduled_activities",
+            "contact",
         )
+        model = Tournament
+
+    def get_rules_system(self, obj):
+        return RuleSystem(obj.rules_system).label
 
 
 class TournamentSerializer(serializers.ModelSerializer):
@@ -107,6 +128,10 @@ class TournamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
         fields = (
+            "name",
+            "image",
+            "start_date",
+            "end_date",
             "registration_info",
             "registered_players",
             "tournament_info",

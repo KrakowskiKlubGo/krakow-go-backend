@@ -1,3 +1,4 @@
+from django.db.models import Count, F
 from rest_framework import status, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -7,6 +8,10 @@ from tournaments.api.serializers import (
     TournamentListSerializer,
     TournamentSerializer,
     CreateRegisteredPlayerSerializer,
+)
+from tournaments.const import (
+    PLAYER_ON_REGISTER_LIST_RESPONSE_MESSAGE,
+    PLAYER_ON_WAITING_LIST_RESPONSE_MESSAGE,
 )
 from tournaments.models import Tournament
 
@@ -32,9 +37,20 @@ class TournamentViewSet(
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        tournament = (
+            Tournament.objects.select_related("registration")
+            .prefetch_related("registered_players")
+            .get(id=id)
+        )
+        if tournament.registered_players.count() < tournament.registration.player_limit:
+            message = PLAYER_ON_REGISTER_LIST_RESPONSE_MESSAGE[request.LANGUAGE_CODE]
+        else:
+            message = PLAYER_ON_WAITING_LIST_RESPONSE_MESSAGE[request.LANGUAGE_CODE]
+
         return Response(
             {
-                "message": "You have successfully registered for the tournament.",
+                "message": message,
             },
             status=status.HTTP_201_CREATED,
         )

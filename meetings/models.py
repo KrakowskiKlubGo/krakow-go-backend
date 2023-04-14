@@ -1,12 +1,15 @@
 from django.db import models
+from datetime import date, timedelta
+
+from django.utils.timezone import now
 
 from common.models import BaseModel
+from meetings.const import DayOfWeek
 
 
 class Meeting(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    date = models.DateField()
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
     address = models.CharField(max_length=100)
@@ -14,6 +17,29 @@ class Meeting(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+class OneTimeMeeting(Meeting):
+    date = models.DateField()
+
+
+class RecurringMeeting(Meeting):
+    day_of_week = models.CharField(
+        max_length=20,
+        choices=DayOfWeek.choices,
+    )
+
+    @property
+    def date(self):
+        """
+        Returns the closest date with proper day of week.
+        """
+        today = now().weekday()
+        meeting_day = [day for day in DayOfWeek].index(self.day_of_week)
+        days_until_meeting = (meeting_day - today) % 7
+        next_meeting = now() + timedelta(days=days_until_meeting)
+
+        return next_meeting.date()
 
 
 class MeetingParticipant(models.Model):

@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils.timezone import now
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
@@ -26,9 +26,17 @@ class MeetingViewSet(ReadOnlyModelViewSet):
             participants_count=Count("participants", distinct=True),
         )
         if self.action == "list":
-            queryset = queryset.order_by("date").filter(
-                date__gt=now().date(), date__lt=(now() + timedelta(days=7)).date()
+            queryset = queryset.filter(
+                Q(
+                    onetimemeeting__isnull=False,
+                    onetimemeeting__date__gte=now().date(),
+                    onetimemeeting__date__lt=(now() + timedelta(days=7)).date(),
+                )
+                | Q(
+                    recurringmeeting__isnull=False,
+                )
             )
+
         return queryset
 
 

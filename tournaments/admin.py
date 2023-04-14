@@ -2,7 +2,12 @@ from django.contrib import admin
 from modeltranslation.admin import TranslationTabularInline
 
 from common.admin import CloneTranslationModelAdmin
-from tournaments.models import Registration, Tournament, RegisteredPlayer
+from tournaments.models import (
+    Registration,
+    Tournament,
+    RegisteredPlayer,
+    ScheduledActivity,
+)
 
 
 class RegistrationInline(TranslationTabularInline):
@@ -16,6 +21,12 @@ class RegisteredPlayerInline(admin.TabularInline):
     extra = 0
 
 
+class ScheduledActivityInline(TranslationTabularInline):
+    fk_name = "tournament"
+    model = ScheduledActivity
+    extra = 0
+
+
 @admin.register(Tournament)
 class TournamentAdmin(CloneTranslationModelAdmin):
     list_display = (
@@ -25,27 +36,28 @@ class TournamentAdmin(CloneTranslationModelAdmin):
         "is_draft",
         "is_ended",
     )
-    inlines = [RegistrationInline, RegisteredPlayerInline]
+    inlines = [RegistrationInline, RegisteredPlayerInline, ScheduledActivityInline]
     fieldsets = (
         (
             "General",
             {
                 "fields": (
                     "name",
-                    "image",
-                    "place",
-                    "start_date",
-                    "end_date",
                     "is_draft",
                     "is_ended",
+                    "image",
+                    "description",
+                    "start_date",
+                    "end_date",
                     "organizer",
                     "referee",
-                    "description",
                     "additional_info",
+                    "place",
                     "address",
                     "address_map_link",
                     "prizes",
                     "fee",
+                    "contact",
                 )
             },
         ),

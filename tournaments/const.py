@@ -1,6 +1,17 @@
 from django.db import models
 
 
+PLAYER_ON_REGISTER_LIST_RESPONSE_MESSAGE = {
+    "pl": "Zostałeś zapisany na turniej. Do zobaczenia!",
+    "en": "You have been registered for the tournament. See you there!",
+}
+
+PLAYER_ON_WAITING_LIST_RESPONSE_MESSAGE = {
+    "pl": "Zostałeś dodany do listy oczekujących.",
+    "en": "You have been added to the waiting list.",
+}
+
+
 class RuleSystem(models.TextChoices):
     MAC_MAHON = "mac_mahon", "MacMahon"
     SWISS = "swiss", "Swiss"
