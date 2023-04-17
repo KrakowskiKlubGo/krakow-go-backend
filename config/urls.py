@@ -24,4 +24,5 @@ urlpatterns = [
     path("api/", include("meetings.urls")),
     path("api/", include("articles.urls")),
     path("api/", include("sgfs.urls")),
+    path("api/captcha/", include("rest_captcha.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

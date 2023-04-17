@@ -1,3 +1,4 @@
+from rest_captcha.serializers import RestCaptchaSerializer
 from rest_framework import serializers
 
 from tournaments.const import PlayerRank, RuleSystem
@@ -47,7 +48,10 @@ class RegisteredPlayersSerializer(serializers.ModelSerializer):
         return PlayerRank(obj.rank).label
 
 
-class CreateRegisteredPlayerSerializer(serializers.ModelSerializer):
+class CreateRegisteredPlayerSerializer(
+    RestCaptchaSerializer,
+    serializers.ModelSerializer,
+):
     tournament_id = serializers.PrimaryKeyRelatedField(
         queryset=Tournament.objects.all(), write_only=True, source="tournament"
     )
@@ -64,15 +68,24 @@ class CreateRegisteredPlayerSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "egf_pid",
+            # Captcha fields
+            "captcha_key",
+            "captcha_value",
         )
 
     def validate(self, attrs):
+        super().validate(attrs)
         tournament = attrs["tournament"]
         if tournament.is_ended:
             raise serializers.ValidationError("Registration is closed.")
         if tournament.is_draft:
             raise serializers.ValidationError("Registration is closed.")
         return attrs
+
+    def create(self, validated_data):
+        validated_data.pop("captcha_key")
+        validated_data.pop("captcha_value")
+        return super().create(validated_data)
 
 
 class ScheduledActivitySerializer(serializers.ModelSerializer):

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+from rest_captcha.settings import FONT_PATH
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,7 +45,11 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["corsheaders", "modeltranslation"]
+THIRD_PARTY_APPS = [
+    "corsheaders",
+    "modeltranslation",
+    "rest_captcha",
+]
 
 KRAKOW_GO_BACKEND_APPS = [
     "common.apps.CommonConfig",
@@ -257,3 +263,29 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 MAX_UPLOAD_FILE_SIZE = 250000000
+
+
+# CACHE
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "rest-captcha",
+        "MAX_ENTRIES": 10000,
+    }
+}
+
+# CAPTCHA
+REST_CAPTCHA = {
+    "CAPTCHA_CACHE": "default",
+    "CAPTCHA_TIMEOUT": 300,  # 5 minutes
+    "CAPTCHA_LENGTH": 4,
+    "CAPTCHA_FONT_SIZE": 22,
+    "CAPTCHA_IMAGE_SIZE": (90, 40),
+    "CAPTCHA_LETTER_ROTATION": (-35, 35),
+    "CAPTCHA_FOREGROUND_COLOR": "#001100",
+    "CAPTCHA_BACKGROUND_COLOR": "#ffffff",
+    "CAPTCHA_FONT_PATH": FONT_PATH,
+    "CAPTCHA_CACHE_KEY": "rest_captcha_{key}.{version}",
+    "FILTER_FUNCTION": "rest_captcha.captcha.filter_default",
+    "NOISE_FUNCTION": "rest_captcha.captcha.noise_default",
+}
