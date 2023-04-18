@@ -28,7 +28,6 @@ class Command(BaseCommand):
             place="Shop Gracz",
             is_ended=False,
             is_draft=False,
-            results="",
             organizer="Adam Białożyt, Maria Kluziak, Jakub Miłkowski",
             referee="Jakub Miłkowski",
             description_pl="Serdecznie zapraszamy na 3 turniej w Szopie",
@@ -54,6 +53,7 @@ class Command(BaseCommand):
             handicap_rules_pl="Handicap redukowany o 2, 9 kamieni max",
             handicap_rules_en="Handicap reduced by 2, 9 stones max",
             time_control="25 min + 1 x 15s byo-yomi ",
+            contact="krakowski.klub.go@gmail.com",
         )
         Registration.objects.create(
             tournament=szop_3,

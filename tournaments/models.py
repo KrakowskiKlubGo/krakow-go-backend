@@ -1,7 +1,12 @@
 from django.db import models
 
 from common.models import BaseModel
-from tournaments.const import RuleSystem, TournamentClass, PlayerRank
+from tournaments.const import (
+    RuleSystem,
+    TournamentClass,
+    PlayerRank,
+    TournamentResultType,
+)
 
 
 class Tournament(BaseModel):
@@ -12,7 +17,6 @@ class Tournament(BaseModel):
     place = models.CharField(max_length=100)
     is_draft = models.BooleanField(default=True)
     is_ended = models.BooleanField(default=False)
-    results = models.TextField(null=True, blank=True)
     organizer = models.TextField()
     referee = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(
@@ -152,3 +156,22 @@ class ScheduledActivity(models.Model):
 
     def __str__(self):
         return self.activity_name
+
+
+class TournamentResult(models.Model):
+    tournament = models.ForeignKey(
+        "tournaments.Tournament",
+        on_delete=models.CASCADE,
+        related_name="tournament_results",
+    )
+    name = models.CharField(max_length=200)
+    type = models.CharField(max_length=20, choices=TournamentResultType.choices)
+    result_file = models.FileField(upload_to="tournament_results/")
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Tournament Result"
+        verbose_name_plural = "Tournament Results"
+
+    def __str__(self):
+        return self.name

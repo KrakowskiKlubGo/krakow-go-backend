@@ -7,6 +7,7 @@ from tournaments.models import (
     Registration,
     RegisteredPlayer,
     ScheduledActivity,
+    TournamentResult,
 )
 
 
@@ -100,6 +101,17 @@ class ScheduledActivitySerializer(serializers.ModelSerializer):
         )
 
 
+class TournamentResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TournamentResult
+        fields = (
+            "name",
+            "type",
+            "result_file",
+            "timestamp",
+        )
+
+
 class TournamentInfo(serializers.ModelSerializer):
     scheduled_activities = ScheduledActivitySerializer(many=True)
     rules_system = serializers.SerializerMethodField()
@@ -136,6 +148,7 @@ class TournamentInfo(serializers.ModelSerializer):
 class TournamentSerializer(serializers.ModelSerializer):
     registration_info = RegistrationInfoSerializer(source="registration")
     registered_players = RegisteredPlayersSerializer(many=True)
+    tournament_results = TournamentResultSerializer(many=True)
     tournament_info = serializers.SerializerMethodField()
 
     class Meta:
@@ -148,6 +161,7 @@ class TournamentSerializer(serializers.ModelSerializer):
             "registration_info",
             "registered_players",
             "tournament_info",
+            "tournament_results",
         )
 
     def get_tournament_info(self, obj):

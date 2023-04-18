@@ -7,6 +7,7 @@ from tournaments.models import (
     Tournament,
     RegisteredPlayer,
     ScheduledActivity,
+    TournamentResult,
 )
 
 
@@ -27,6 +28,12 @@ class ScheduledActivityInline(TranslationTabularInline):
     extra = 0
 
 
+class TournamentResultInline(TranslationTabularInline):
+    fk_name = "tournament"
+    model = TournamentResult
+    extra = 0
+
+
 @admin.register(Tournament)
 class TournamentAdmin(CloneTranslationModelAdmin):
     list_display = (
@@ -36,7 +43,12 @@ class TournamentAdmin(CloneTranslationModelAdmin):
         "is_draft",
         "is_ended",
     )
-    inlines = [RegistrationInline, RegisteredPlayerInline, ScheduledActivityInline]
+    inlines = [
+        RegistrationInline,
+        RegisteredPlayerInline,
+        ScheduledActivityInline,
+        TournamentResultInline,
+    ]
     fieldsets = (
         (
             "General",

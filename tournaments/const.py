@@ -26,6 +26,11 @@ class TournamentClass(models.TextChoices):
     D = "D", "D"
 
 
+class TournamentResultType(models.TextChoices):
+    HTML_TABLE_RESULTS = "html_table_results", "HTML Table Results"
+    EGD_RESULTS = "egd_results", "EGD Results"
+
+
 class PlayerRank(models.TextChoices):
     EGF_5_PRO = "5p", "5 pro"
     EGF_4_PRO = "4p", "4 pro"
