@@ -84,8 +84,6 @@ class CreateRegisteredPlayerSerializer(
         return attrs
 
     def create(self, validated_data):
-        validated_data.pop("captcha_key")
-        validated_data.pop("captcha_value")
         return super().create(validated_data)
 
 

@@ -49,8 +49,9 @@ class Migration(migrations.Migration):
                     "type",
                     models.CharField(
                         choices=[
-                            ("html_table_results", "HTML Table Results"),
-                            ("egd_results", "EGD Results"),
+                            ("games_list", "Games list"),
+                            ("players_list", "Players list"),
+                            ("standings", "Standings"),
                         ],
                         max_length=20,
                     ),
