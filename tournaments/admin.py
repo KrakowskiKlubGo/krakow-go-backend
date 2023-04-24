@@ -54,6 +54,7 @@ class TournamentAdmin(CloneTranslationModelAdmin):
             "General",
             {
                 "fields": (
+                    "code",
                     "name",
                     "is_draft",
                     "is_ended",

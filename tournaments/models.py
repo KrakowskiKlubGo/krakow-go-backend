@@ -87,6 +87,10 @@ class Tournament(BaseModel):
         blank=True,
     )
 
+    _clone_m2o_or_o2m_fields = [
+        "scheduled_activities",
+    ]
+
     def __str__(self):
         return self.name
 
