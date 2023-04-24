@@ -14,7 +14,7 @@ from tournaments.models import (
 class TournamentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
-        fields = ("id", "name", "start_date", "end_date")
+        fields = ("code", "name", "start_date", "end_date")
 
 
 class RegistrationInfoSerializer(serializers.ModelSerializer):

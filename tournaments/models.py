@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 from common.models import BaseModel
@@ -10,6 +12,7 @@ from tournaments.const import (
 
 
 class Tournament(BaseModel):
+    code = models.CharField(max_length=36, unique=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to="images/", blank=True)
     start_date = models.DateField()

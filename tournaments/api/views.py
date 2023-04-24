@@ -1,4 +1,4 @@
-from django.db.models import Count, F
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -19,8 +19,16 @@ from tournaments.models import Tournament
 class TournamentViewSet(
     mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet
 ):
-    queryset = Tournament.objects.filter(is_draft=False).order_by("start_date")
-    lookup_field = "id"
+    queryset = Tournament.objects.order_by("-start_date")
+    lookup_field = "code"
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["is_ended"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.action == "list":
+            queryset = queryset.filter(is_draft=False)
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -28,7 +36,8 @@ class TournamentViewSet(
         return TournamentSerializer
 
     @action(detail=True, methods=["post"], url_path="register-player")
-    def register_player(self, request, id):
+    def register_player(self, request, code):
+        id = self.get_object().id
         serializer = CreateRegisteredPlayerSerializer(
             data={
                 **request.data,

@@ -13,6 +13,7 @@ class TournamentTranslationOptions(TranslationOptions):
     fields = (
         "name",
         "description",
+        "place",
         "additional_info",
         "address",
         "address_map_link",
