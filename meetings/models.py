@@ -1,5 +1,7 @@
+import uuid
+
 from django.db import models
-from datetime import date, timedelta
+from datetime import timedelta
 
 from django.utils.timezone import now
 
@@ -8,6 +10,7 @@ from meetings.const import DayOfWeek
 
 
 class Meeting(BaseModel):
+    code = models.CharField(max_length=36, unique=True, default=uuid.uuid4())
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     start_time = models.TimeField(null=True, blank=True)

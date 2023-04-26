@@ -13,17 +13,23 @@ from tournaments.models import (
 
 class TournamentListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tournament
         fields = ("code", "name", "start_date", "end_date")
+        model = Tournament
 
 
 class RegistrationInfoSerializer(serializers.ModelSerializer):
     registered_players = serializers.SerializerMethodField()
-    tournament_id = serializers.IntegerField(source="tournament.id")
+    tournament_code = serializers.CharField(source="tournament.code")
 
     class Meta:
         model = Registration
-        fields = ("end_date", "player_limit", "registered_players", "tournament_id")
+        fields = (
+            "end_date",
+            "player_limit",
+            "registered_players",
+            "tournament_code",
+            "description",
+        )
 
     def get_registered_players(self, obj):
         return obj.tournament.registered_players.count()

@@ -46,10 +46,14 @@ class TournamentViewSet(
             .prefetch_related("registered_players")
             .get(id=id)
         )
-        if tournament.registered_players.count() < tournament.registration.player_limit:
-            message = PLAYER_ON_REGISTER_LIST_RESPONSE_MESSAGE[request.LANGUAGE_CODE]
-        else:
+        if (
+            tournament.registration.player_limit is not None
+            and tournament.registered_players.count()
+            >= tournament.registration.player_limit
+        ):
             message = PLAYER_ON_WAITING_LIST_RESPONSE_MESSAGE[request.LANGUAGE_CODE]
+        else:
+            message = PLAYER_ON_REGISTER_LIST_RESPONSE_MESSAGE[request.LANGUAGE_CODE]
 
         return Response(
             {

@@ -4,7 +4,7 @@ import json
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 
-from meetings.models import Meeting, RecurringMeeting, OneTimeMeeting
+from meetings.models import RecurringMeeting
 from tournaments.models import (
     Tournament,
     Registration,

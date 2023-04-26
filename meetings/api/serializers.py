@@ -21,7 +21,7 @@ class BaseMeetingSerializer(serializers.ModelSerializer):
 class MeetingListSerializer(BaseMeetingSerializer):
     class Meta:
         model = Meeting
-        fields = ("id", "name", "date", "start_time", "end_time", "address")
+        fields = ("code", "name", "date", "start_time", "end_time", "address")
 
 
 class MeetingSerializer(BaseMeetingSerializer):

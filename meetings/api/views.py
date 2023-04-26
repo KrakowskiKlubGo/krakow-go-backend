@@ -15,6 +15,7 @@ from meetings.models import Meeting
 
 class MeetingViewSet(ReadOnlyModelViewSet):
     serializer_class = MeetingListSerializer
+    lookup_field = "code"
 
     def get_serializer_class(self):
         if self.action == "list":
