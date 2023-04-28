@@ -18,15 +18,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = (
-    [
-        path("admin/", admin.site.urls),
-        path("api/", include("tournaments.urls")),
-        path("api/", include("meetings.urls")),
-        path("api/", include("articles.urls")),
-        path("api/", include("sgfs.urls")),
-        path("api/captcha/", include("rest_captcha.urls")),
-    ]
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-)
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/", include("tournaments.urls")),
+    path("api/", include("meetings.urls")),
+    path("api/", include("articles.urls")),
+    path("api/", include("sgfs.urls")),
+    path("api/captcha/", include("rest_captcha.urls")),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

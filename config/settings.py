@@ -40,6 +40,11 @@ ADMIN_MODIFICATION_APPS = [
     "model_clone",
 ]
 
+FILE_STORAGE_APPS = [
+    "cloudinary_storage",
+    "cloudinary",
+]
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -64,7 +69,11 @@ KRAKOW_GO_BACKEND_APPS = [
 ]
 
 INSTALLED_APPS = (
-    THIRD_PARTY_APPS + ADMIN_MODIFICATION_APPS + DJANGO_APPS + KRAKOW_GO_BACKEND_APPS
+    THIRD_PARTY_APPS
+    + ADMIN_MODIFICATION_APPS
+    + DJANGO_APPS
+    + FILE_STORAGE_APPS
+    + KRAKOW_GO_BACKEND_APPS
 )
 
 MIDDLEWARE = [
@@ -271,6 +280,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 MAX_UPLOAD_FILE_SIZE = 250000000
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": env("CLOUDINARY_API_KEY"),
+    "API_SECRET": env("CLOUDINARY_API_SECRET"),
+}
 
 
 # CACHE
