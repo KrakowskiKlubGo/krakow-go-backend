@@ -8,12 +8,14 @@ from tournaments.api.serializers import (
     TournamentListSerializer,
     TournamentSerializer,
     CreateRegisteredPlayerSerializer,
+    RegisteredPlayersSerializer,
+    TournamentResultSerializer,
 )
 from tournaments.const import (
     PLAYER_ON_REGISTER_LIST_RESPONSE_MESSAGE,
     PLAYER_ON_WAITING_LIST_RESPONSE_MESSAGE,
 )
-from tournaments.models import Tournament
+from tournaments.models import Tournament, RegisteredPlayer, TournamentResult
 
 
 class TournamentViewSet(
@@ -27,6 +29,10 @@ class TournamentViewSet(
     def get_serializer_class(self):
         if self.action == "list":
             return TournamentListSerializer
+        elif self.action == "get_results":
+            return TournamentResultSerializer
+        elif self.action == "get_registered_players":
+            return RegisteredPlayersSerializer
         return TournamentSerializer
 
     @action(detail=True, methods=["post"], url_path="register-player")
@@ -49,7 +55,7 @@ class TournamentViewSet(
         if (
             tournament.registration.player_limit is not None
             and tournament.registered_players.count()
-            >= tournament.registration.player_limit
+            > tournament.registration.player_limit
         ):
             message = PLAYER_ON_WAITING_LIST_RESPONSE_MESSAGE[request.LANGUAGE_CODE]
         else:
@@ -61,3 +67,17 @@ class TournamentViewSet(
             },
             status=status.HTTP_201_CREATED,
         )
+
+    @action(detail=True, methods=["get"], url_path="registered-players")
+    def get_registered_players(self, request, code):
+        serializer = self.get_serializer_class()(
+            RegisteredPlayer.objects.filter(tournament__code=code).all(), many=True
+        )
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["get"], url_path="results")
+    def get_results(self, request, code):
+        serializer = self.get_serializer_class()(
+            TournamentResult.objects.filter(tournament__code=code).all(), many=True
+        )
+        return Response(serializer.data)

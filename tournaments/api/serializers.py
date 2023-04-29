@@ -19,7 +19,6 @@ class TournamentListSerializer(serializers.ModelSerializer):
 
 class RegistrationInfoSerializer(serializers.ModelSerializer):
     registered_players = serializers.SerializerMethodField()
-    tournament_code = serializers.CharField(source="tournament.code")
 
     class Meta:
         model = Registration
@@ -27,7 +26,6 @@ class RegistrationInfoSerializer(serializers.ModelSerializer):
             "end_date",
             "player_limit",
             "registered_players",
-            "tournament_code",
             "description",
         )
 
@@ -151,19 +149,17 @@ class TournamentInfo(serializers.ModelSerializer):
 
 class TournamentSerializer(serializers.ModelSerializer):
     registration_info = RegistrationInfoSerializer(source="registration")
-    registered_players = RegisteredPlayersSerializer(many=True)
-    tournament_results = TournamentResultSerializer(many=True)
     tournament_info = serializers.SerializerMethodField()
 
     class Meta:
         model = Tournament
         fields = (
+            "code",
             "name",
             "image",
             "start_date",
             "end_date",
             "registration_info",
-            "registered_players",
             "tournament_info",
             "tournament_results",
         )

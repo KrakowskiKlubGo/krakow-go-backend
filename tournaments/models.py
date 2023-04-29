@@ -1,5 +1,6 @@
 import uuid
 
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 from django.db import models
 
 from common.models import BaseModel
@@ -173,7 +174,9 @@ class TournamentResult(models.Model):
     )
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=20, choices=TournamentResultType.choices)
-    result_file = models.FileField(upload_to="tournament_results/")
+    result_file = models.FileField(
+        upload_to="tournament_results/", storage=RawMediaCloudinaryStorage()
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
