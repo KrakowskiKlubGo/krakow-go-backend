@@ -1,4 +1,7 @@
+import csv
+
 from django.contrib import admin
+from django.http import HttpResponse
 from modeltranslation.admin import TranslationTabularInline
 
 from common.admin import CloneTranslationModelAdmin
@@ -36,6 +39,7 @@ class TournamentResultInline(TranslationTabularInline):
 
 @admin.register(Tournament)
 class TournamentAdmin(CloneTranslationModelAdmin):
+    actions = ["export_registered_players_as_csv"]
     list_display = (
         "name_pl",
         "start_date",
@@ -88,4 +92,35 @@ class TournamentAdmin(CloneTranslationModelAdmin):
                 ),
             },
         ),
+    )
+
+    def export_registered_players_as_csv(self, request, queryset):
+        field_names = [
+            "first_name",
+            "last_name",
+            "rank",
+            "city_club",
+            "country",
+            "email",
+            "phone",
+            "egf_pid",
+            "timestamp",
+            "tournament",
+        ]
+
+        response = HttpResponse(content_type="text/csv")
+        response[
+            "Content-Disposition"
+        ] = "attachment; filename=tournament-registered-players-list.csv"
+        writer = csv.writer(response)
+
+        writer.writerow(field_names)
+        for tournament in queryset:
+            for player in tournament.registered_players.all().order_by("timestamp"):
+                row = writer.writerow([getattr(player, field) for field in field_names])
+
+        return response
+
+    export_registered_players_as_csv.short_description = (
+        "Export Registered Players as CSV"
     )
