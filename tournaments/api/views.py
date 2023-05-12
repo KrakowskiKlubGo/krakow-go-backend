@@ -71,13 +71,19 @@ class TournamentViewSet(
     @action(detail=True, methods=["get"], url_path="registered-players")
     def get_registered_players(self, request, code):
         serializer = self.get_serializer_class()(
-            RegisteredPlayer.objects.filter(tournament__code=code).all(), many=True
+            RegisteredPlayer.objects.filter(tournament__code=code)
+            .all()
+            .order_by("timestamp"),
+            many=True,
         )
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"], url_path="results")
     def get_results(self, request, code):
         serializer = self.get_serializer_class()(
-            TournamentResult.objects.filter(tournament__code=code).all(), many=True
+            TournamentResult.objects.filter(tournament__code=code)
+            .all()
+            .order_by("-order"),
+            many=True,
         )
         return Response(serializer.data)

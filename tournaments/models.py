@@ -178,6 +178,9 @@ class TournamentResult(models.Model):
         upload_to="tournament_results/", storage=RawMediaCloudinaryStorage()
     )
     timestamp = models.DateTimeField(auto_now_add=True)
+    order = models.IntegerField(
+        default=0, help_text="higher number = higher shown on the page"
+    )
 
     class Meta:
         verbose_name = "Tournament Result"
