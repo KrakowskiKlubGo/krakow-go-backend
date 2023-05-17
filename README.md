@@ -5,6 +5,7 @@ overview:
 - Go tournaments with registration, registered players and results uploads
 - exporting tournament players to csv
 - cloning tournaments
+- i18n support - model fields translations
 - one time and recurring meetings
 - articles with dynamic menu that allows sub menus
 - sgf files and image files storage in cloudinary
