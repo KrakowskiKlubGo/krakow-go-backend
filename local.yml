@@ -1,0 +1,15 @@
+version: '3'
+
+volumes:
+  local_postgres_data: { }
+
+services:
+  db:
+      image: postgres
+      container_name: krakow_go_local_postgres
+      volumes:
+        - local_postgres_data:/var/lib/postgresql/data:Z
+      ports:
+        - ${POSTGRES_EXPOSE_PORT:-5432}:5432
+      env_file:
+        - ./.env

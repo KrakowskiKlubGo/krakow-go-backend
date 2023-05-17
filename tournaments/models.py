@@ -13,13 +13,21 @@ from tournaments.const import (
 
 
 class Tournament(BaseModel):
+    """
+    Model for a single go tournament. Contains all the information about the tournament.
+    """
+
     code = models.CharField(max_length=36, unique=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to="images/", blank=True)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     place = models.CharField(max_length=100)
-    is_draft = models.BooleanField(default=True)
+    is_draft = models.BooleanField(
+        default=True,
+        help_text="If true then tournament will not be displayed on the website "
+        "tournament list but detail page will be accessible by URL.",
+    )
     is_ended = models.BooleanField(default=False)
     organizer = models.TextField()
     referee = models.CharField(max_length=200, null=True, blank=True)
@@ -97,6 +105,10 @@ class Tournament(BaseModel):
 
 
 class Registration(models.Model):
+    """
+    Model for registration information for a single tournament.
+    """
+
     tournament = models.OneToOneField(
         "tournaments.Tournament",
         on_delete=models.CASCADE,
@@ -120,6 +132,10 @@ class Registration(models.Model):
 
 
 class RegisteredPlayer(models.Model):
+    """
+    Model for a single registered player.
+    """
+
     tournament = models.ForeignKey(
         "tournaments.Tournament",
         on_delete=models.CASCADE,
@@ -149,6 +165,10 @@ class RegisteredPlayer(models.Model):
 
 
 class ScheduledActivity(models.Model):
+    """
+    Model for a single scheduled activity in a tournament.
+    """
+
     tournament = models.ForeignKey(
         "tournaments.Tournament",
         on_delete=models.CASCADE,
@@ -167,6 +187,12 @@ class ScheduledActivity(models.Model):
 
 
 class TournamentResult(models.Model):
+    """
+    Model for a single tournament result file. Can be used to show tournament results
+    in the tournament page. Result files are html files generated from openGotha
+    program.
+    """
+
     tournament = models.ForeignKey(
         "tournaments.Tournament",
         on_delete=models.CASCADE,

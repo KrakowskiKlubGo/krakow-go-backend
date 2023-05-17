@@ -1,11 +1,41 @@
+import uuid
+
 from django.db import models
+from django.conf import settings
+
+
+class SubMenu(models.Model):
+    """
+    SubMenu model represents a single submenu for grouping articles in website
+    navigation. Articles without submenu will be displayed in main menu.
+    """
+
+    menu_display_name = models.CharField(max_length=100)
+    language = models.CharField(max_length=2, choices=settings.LANGUAGES)
+
+    def __str__(self):
+        return self.menu_display_name + " (" + self.language + ")"
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=100)
+    """
+    Article model represents a single HTML article in a specific language on the
+    website.
+    """
+
+    code = models.CharField(max_length=36, unique=True, default=uuid.uuid4)
+    menu_display_name = models.CharField(max_length=100)
+    language = models.CharField(max_length=2, choices=settings.LANGUAGES)
     html_content = models.TextField()
     is_draft = models.BooleanField(default=False)
-    author = models.CharField(max_length=100, null=True, blank=True)
+    sub_menu = models.ForeignKey(
+        "articles.SubMenu",
+        on_delete=models.CASCADE,
+        related_name="articles",
+        null=True,
+        blank=True,
+        help_text="If blank then article will be displayed in main menu.",
+    )
 
     def __str__(self):
-        return self.title
+        return self.menu_display_name + " (" + self.language + ")"

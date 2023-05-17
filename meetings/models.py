@@ -10,7 +10,16 @@ from meetings.const import DayOfWeek
 
 
 class Meeting(BaseModel):
-    code = models.CharField(max_length=36, unique=True, default=uuid.uuid4)
+    """
+    Base model for meetings
+    """
+
+    code = models.CharField(
+        max_length=36,
+        unique=True,
+        default=uuid.uuid4,
+        help_text="Unique code visible in URL.",
+    )
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     start_time = models.TimeField(null=True, blank=True)
@@ -23,10 +32,19 @@ class Meeting(BaseModel):
 
 
 class OneTimeMeeting(Meeting):
+    """
+    Meeting that happens only once in a specific date.
+    """
+
     date = models.DateField()
 
 
 class RecurringMeeting(Meeting):
+    """
+    Meeting that happens regularly. Currently only weekly meetings on specific day
+    of week are supported.
+    """
+
     day_of_week = models.CharField(
         max_length=20,
         choices=DayOfWeek.choices,
@@ -43,16 +61,3 @@ class RecurringMeeting(Meeting):
         next_meeting = now() + timedelta(days=days_until_meeting)
 
         return next_meeting.date()
-
-
-class MeetingParticipant(models.Model):
-    meeting = models.ForeignKey(
-        "meetings.Meeting",
-        on_delete=models.CASCADE,
-        related_name="participants",
-    )
-    name = models.CharField(max_length=100, null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name

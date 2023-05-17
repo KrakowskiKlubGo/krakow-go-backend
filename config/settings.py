@@ -27,7 +27,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("DJANGO_DEBUG") == "True"
 
-ALLOWED_HOSTS = [".vercel.app", ".now.sh"]
+ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1"]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -56,6 +56,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "modeltranslation",
     "rest_captcha",
+    "django_ace",
 ]
 
 KRAKOW_GO_BACKEND_APPS = [
@@ -108,6 +109,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
+# DATABASES = {"default": env.db("DATABASE_URL")}
 
 DATABASES = {
     "default": {

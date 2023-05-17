@@ -31,6 +31,7 @@ class Migration(migrations.Migration):
                         default=uuid.UUID("9ddc11f5-45bf-4e2b-9295-a61a22b4d872"),
                         max_length=36,
                         unique=True,
+                        help_text="Unique code visible in URL.",
                     ),
                 ),
                 ("name", models.CharField(max_length=100)),
