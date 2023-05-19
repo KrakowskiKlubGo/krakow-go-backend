@@ -18,7 +18,7 @@ from rest_captcha.settings import FONT_PATH
 
 env = environ.Env(DEBUG=(bool, False))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -27,8 +27,6 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("DJANGO_DEBUG") == "True"
 
-ALLOWED_HOSTS = [".vercel.app", ".now.sh", "127.0.0.1"]
-
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
@@ -36,11 +34,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 ADMIN_MODIFICATION_APPS = [
     "jazzmin",
     "model_clone",
-]
-
-FILE_STORAGE_APPS = [
-    "cloudinary_storage",
-    "cloudinary",
 ]
 
 DJANGO_APPS = [
@@ -68,11 +61,7 @@ KRAKOW_GO_BACKEND_APPS = [
 ]
 
 INSTALLED_APPS = (
-    THIRD_PARTY_APPS
-    + ADMIN_MODIFICATION_APPS
-    + DJANGO_APPS
-    + FILE_STORAGE_APPS
-    + KRAKOW_GO_BACKEND_APPS
+    THIRD_PARTY_APPS + ADMIN_MODIFICATION_APPS + DJANGO_APPS + KRAKOW_GO_BACKEND_APPS
 )
 
 MIDDLEWARE = [
@@ -278,13 +267,6 @@ JAZZMIN_SETTINGS = {
 # ------------------------------------------------------------------------------
 MEDIA_URL = "/media/"
 MAX_UPLOAD_FILE_SIZE = 250000000
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": env("CLOUDINARY_API_KEY"),
-    "API_SECRET": env("CLOUDINARY_API_SECRET"),
-}
 
 
 # CACHE

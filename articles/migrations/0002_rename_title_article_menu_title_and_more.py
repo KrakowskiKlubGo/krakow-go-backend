@@ -3,7 +3,7 @@ import uuid
 from django.db import migrations, models
 
 
-def populate_article_code(apps, schema_editor, dupa):
+def populate_article_code(apps, schema_editor):
     Article = apps.get_model("articles", "Article")
     for article in Article.objects.all():
         article.code = uuid.uuid4()
