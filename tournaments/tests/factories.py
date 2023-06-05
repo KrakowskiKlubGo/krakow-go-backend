@@ -74,7 +74,8 @@ class ScheduledActivityFactory(DjangoModelFactory):
 
 
 class TournamentResultFactory(DjangoModelFactory):
-    name = factory.Faker("word")
+    name_pl = factory.Sequence(lambda n: f"Results-{n} PL")
+    name_en = factory.Sequence(lambda n: f"Results-{n} EN")
     type = TournamentResultType.STANDINGS
     result_file = factory.django.FileField()
     order = factory.sequence(lambda n: n)

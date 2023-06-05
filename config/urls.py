@@ -20,9 +20,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("tournaments.urls")),
-    path("api/", include("meetings.urls")),
-    path("api/", include("articles.urls")),
-    path("api/", include("sgfs.urls")),
+    path("api/", include(("tournaments.urls", "tournaments"), namespace="tournaments")),
+    path("api/", include(("meetings.urls", "meetings"), namespace="meetings")),
+    path("api/", include(("articles.urls", "articles"), namespace="articles")),
+    path("api/", include(("sgfs.urls", "sgfs"), namespace="sgfs")),
     path("api/captcha/", include("rest_captcha.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

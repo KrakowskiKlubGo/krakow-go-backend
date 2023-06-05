@@ -1,3 +1,5 @@
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+
 from config.settings.base import *
 
 ALLOWED_HOSTS = [".vercel.app", ".now.sh"]

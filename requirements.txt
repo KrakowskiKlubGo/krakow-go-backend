@@ -15,7 +15,6 @@ django-environ==0.10.0
 django-filter==22.1
 django-jazzmin==2.6.0
 django-modeltranslation==0.18.9
-django-photologue==3.15.1
 django-rest-captcha==0.3.0
 django-rest-framework==0.1.0
 django-sortedm2m==3.1.1

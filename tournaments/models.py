@@ -1,9 +1,11 @@
 import uuid
 
 from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from django.conf import settings
 from django.db import models
 
 from common.models import BaseModel
+from common.storage import RawFileField
 from tournaments.const import (
     RuleSystem,
     TournamentClass,
@@ -200,9 +202,7 @@ class TournamentResult(models.Model):
     )
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=20, choices=TournamentResultType.choices)
-    result_file = models.FileField(
-        upload_to="tournament_results/", storage=RawMediaCloudinaryStorage()
-    )
+    result_file = RawFileField(upload_to="tournament_results/")
     timestamp = models.DateTimeField(auto_now_add=True)
     order = models.IntegerField(
         default=0, help_text="higher number = higher shown on the page"
