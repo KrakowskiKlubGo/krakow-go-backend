@@ -1,13 +1,11 @@
 from datetime import timedelta
 
-from django.db.models import Count, Q
+from django.db.models import Q
 from django.utils.timezone import now
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from meetings.api.serializers import (
     MeetingSerializer,
-    MeetingParticipantCreateSerializer,
     MeetingListSerializer,
 )
 from meetings.models import Meeting
@@ -23,9 +21,7 @@ class MeetingViewSet(ReadOnlyModelViewSet):
         return MeetingSerializer
 
     def get_queryset(self):
-        queryset = Meeting.objects.all().annotate(
-            participants_count=Count("participants", distinct=True),
-        )
+        queryset = Meeting.objects.all()
         if self.action == "list":
             queryset = queryset.filter(
                 Q(
@@ -37,9 +33,4 @@ class MeetingViewSet(ReadOnlyModelViewSet):
                     recurringmeeting__isnull=False,
                 )
             )
-
         return queryset
-
-
-class MeetingParticipantCreateViewSet(mixins.CreateModelMixin, GenericViewSet):
-    serializer_class = MeetingParticipantCreateSerializer

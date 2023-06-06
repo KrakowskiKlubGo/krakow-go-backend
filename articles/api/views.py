@@ -8,19 +8,25 @@ from articles.service import ArticlesMenuTreeBuilder
 
 
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
+    lookup_field = "code"
     queryset = Article.objects.all()
+    filterset_fields = ["language"]
 
     def get_serializer_class(self):
         if self.action == "list":
             return ArticleListSerializer
         return ArticleSerializer
 
-    @action(detail=False, methods=["get"])
-    def get_menu(self, request):
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="menu/(?P<language>[a-z]{2})",
+    )
+    def get_menu(self, request, language):
         """
         Return a tree of articles grouped by submenu.
         """
-        articles = Article.objects.filter(is_draft=False)
+        articles = Article.objects.filter(is_menu_visible=True, language=language)
         menu = ArticlesMenuTreeBuilder(articles).build()
         return Response(
             menu,

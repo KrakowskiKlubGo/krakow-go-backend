@@ -27,7 +27,7 @@ class Article(models.Model):
     menu_display_name = models.CharField(max_length=100)
     language = models.CharField(max_length=2, choices=settings.LANGUAGES)
     html_content = models.TextField()
-    is_draft = models.BooleanField(default=False)
+    is_menu_visible = models.BooleanField(default=False)
     sub_menu = models.ForeignKey(
         "articles.SubMenu",
         on_delete=models.CASCADE,
@@ -39,3 +39,16 @@ class Article(models.Model):
 
     def __str__(self):
         return self.menu_display_name + " (" + self.language + ")"
+
+
+class ArticleImage(models.Model):
+    """
+    Represents a single image in an article.
+    """
+
+    article = models.ForeignKey(
+        "articles.Article",
+        on_delete=models.CASCADE,
+        related_name="images",
+    )
+    image = models.ImageField(upload_to="articles/images/")

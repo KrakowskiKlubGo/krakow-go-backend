@@ -4,7 +4,12 @@ import factory
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 
-from tournaments.const import TournamentClass, TournamentResultType, PlayerRank
+from tournaments.const import (
+    TournamentClass,
+    TournamentResultType,
+    PlayerRank,
+    RuleSystem,
+)
 from tournaments.models import (
     Tournament,
     Registration,
@@ -19,27 +24,38 @@ class TournamentFactory(DjangoModelFactory):
         model = Tournament
 
     code = factory.Sequence(lambda n: f"tournament-{n}")
-    name = factory.Sequence(lambda n: f"Tournament {n}")
+    name_pl = factory.Sequence(lambda n: f"Turniej {n}")
+    name_en = factory.Sequence(lambda n: f"Tournament {n}")
     start_date = datetime.date.today() + datetime.timedelta(days=7)
     end_date = datetime.date.today() + datetime.timedelta(days=8)
-    place = factory.Faker("word")
+    place_pl = factory.Faker("word")
+    place_en = factory.Faker("word")
     is_draft = False
     is_ended = False
     referee = factory.Faker("word")
-    description = factory.Faker("text")
-    additional_info = factory.Faker("text")
-    contact = factory.Faker("word")
-    address = factory.Faker("word")
-    address_map_link = factory.Faker("url")
-    prizes = factory.Faker("word")
-    fee = factory.Faker("word")
-    game_rules = factory.Faker("word")
+    description_pl = factory.Faker("text")
+    description_en = factory.Faker("text")
+    additional_info_pl = factory.Faker("text")
+    additional_info_en = factory.Faker("text")
+    address_pl = factory.Faker("word")
+    address_en = factory.Faker("word")
+    address_map_link_pl = factory.Faker("url")
+    address_map_link_en = factory.Faker("url")
+    prizes_pl = factory.Faker("word")
+    prizes_en = factory.Faker("word")
+    fee_en = factory.Faker("word")
+    fee_pl = factory.Faker("word")
+    game_rules_pl = factory.Faker("word")
+    game_rules_en = factory.Faker("word")
     komi = "6.5"
-    rules_system = factory.Faker("word")
+    rules_system = RuleSystem.MAC_MAHON
     tournament_class = TournamentClass.A
     rounds = 5
-    handicap_rules = factory.Faker("word")
+    handicap_rules_en = factory.Faker("word")
+    handicap_rules_pl = factory.Faker("word")
     time_control = factory.Faker("word")
+    contact_pl = factory.Faker("word")
+    contact_en = factory.Faker("word")
 
 
 class RegistrationFactory(DjangoModelFactory):
@@ -47,7 +63,8 @@ class RegistrationFactory(DjangoModelFactory):
         model = Registration
 
     end_date = datetime.date.today() + datetime.timedelta(days=7)
-    description = factory.Faker("text")
+    description_en = factory.Faker("text")
+    description_pl = factory.Faker("text")
 
 
 class RegisteredPlayerFactory(DjangoModelFactory):
@@ -74,8 +91,8 @@ class ScheduledActivityFactory(DjangoModelFactory):
 
 
 class TournamentResultFactory(DjangoModelFactory):
-    name_pl = factory.Sequence(lambda n: f"Results-{n} PL")
-    name_en = factory.Sequence(lambda n: f"Results-{n} EN")
+    name_pl = factory.Sequence(lambda n: f"Wyniki-{n}")
+    name_en = factory.Sequence(lambda n: f"Results-{n}")
     type = TournamentResultType.STANDINGS
     result_file = factory.django.FileField()
     order = factory.sequence(lambda n: n)

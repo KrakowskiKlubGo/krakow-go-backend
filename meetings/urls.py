@@ -1,14 +1,9 @@
 from rest_framework import routers
 
-from meetings.api.views import MeetingViewSet, MeetingParticipantCreateViewSet
+from meetings.api.views import MeetingViewSet
 
 router = routers.SimpleRouter()
 
-router.register("meetings", MeetingViewSet, basename="meeting")
-router.register(
-    "meeting-participants",
-    MeetingParticipantCreateViewSet,
-    basename="meeting-participants",
-)
+router.register("meetings", MeetingViewSet, basename="meetings")
 
 urlpatterns = router.urls

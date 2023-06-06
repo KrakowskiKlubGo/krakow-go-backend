@@ -1,11 +1,10 @@
 from typing import List
 
 from articles.api.serializers import ArticleListSerializer
-from articles.models import Article
 
 
 class ArticlesMenuTreeBuilder:
-    def __init__(self, articles: List[Article]):
+    def __init__(self, articles):
         self.articles = articles
 
     def build(self):
@@ -14,7 +13,7 @@ class ArticlesMenuTreeBuilder:
         included. Articles without submenu are included in main_menu.
         """
         menu = {
-            "main_manu": [
+            "main_menu": [
                 ArticleListSerializer(article).data
                 for article in self.articles
                 if article.sub_menu is None
@@ -26,3 +25,5 @@ class ArticlesMenuTreeBuilder:
                 if submenu not in menu:
                     menu[submenu] = []
                 menu[submenu].append(ArticleListSerializer(article).data)
+
+        return menu
