@@ -13,7 +13,6 @@ overview:
 
 
 todo:
-- add tests!
 - full dockerize for prod and local
 - add redis
 - later extend to support many go clubs
