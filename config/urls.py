@@ -26,3 +26,6 @@ urlpatterns = [
     path("api/", include(("sgfs.urls", "sgfs"), namespace="sgfs")),
     path("api/captcha/", include("rest_captcha.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEFAULT_FILE_STORAGE == "django.core.files.storage.FileSystemStorage":
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
