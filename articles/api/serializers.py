@@ -12,4 +12,4 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ["code", "language", "html_content"]
+        fields = ["code", "language", "html_content", "title"]

@@ -23,9 +23,10 @@ class Article(models.Model):
     website.
     """
 
-    code = models.CharField(max_length=36, unique=True, default=uuid.uuid4)
+    code = models.CharField(max_length=36, default=uuid.uuid4)
     menu_display_name = models.CharField(max_length=100)
     language = models.CharField(max_length=2, choices=settings.LANGUAGES)
+    title = models.CharField(max_length=100)
     html_content = models.TextField()
     is_menu_visible = models.BooleanField(default=False)
     sub_menu = models.ForeignKey(
@@ -39,6 +40,9 @@ class Article(models.Model):
 
     def __str__(self):
         return self.menu_display_name + " (" + self.language + ")"
+
+    class Meta:
+        unique_together = ("code", "language")
 
 
 class ArticleImage(models.Model):
