@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from rest_captcha.serializers import RestCaptchaSerializer
 from rest_framework import serializers
 
@@ -27,6 +28,7 @@ class RegistrationInfoSerializer(serializers.ModelSerializer):
             "player_limit",
             "registered_players",
             "description",
+            "email_required",
         )
 
     def get_registered_players(self, obj):
@@ -81,7 +83,8 @@ class CreateRegisteredPlayerSerializer(
     def validate(self, attrs):
         super().validate(attrs)
         tournament = attrs["tournament"]
-        if tournament.is_ended:
+
+        if tournament.start_date < now().date():
             raise serializers.ValidationError("Registration is closed.")
         if tournament.is_draft:
             raise serializers.ValidationError("Registration is closed.")
@@ -121,7 +124,6 @@ class TournamentInfo(serializers.ModelSerializer):
     class Meta:
         fields = (
             "is_draft",
-            "is_ended",
             "organizer",
             "referee",
             "description",

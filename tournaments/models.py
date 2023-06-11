@@ -1,7 +1,5 @@
 import uuid
 
-from cloudinary_storage.storage import RawMediaCloudinaryStorage
-from django.conf import settings
 from django.db import models
 
 from common.models import BaseModel
@@ -23,14 +21,17 @@ class Tournament(BaseModel):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to="images/", blank=True)
     start_date = models.DateField()
-    end_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(
+        null=True,
+        blank=True,
+        help_text="If tournament lasts one day then leave this field empty.",
+    )
     place = models.CharField(max_length=100)
     is_draft = models.BooleanField(
         default=True,
         help_text="If true then tournament will not be displayed on the website "
         "tournament list but detail page will be accessible by URL.",
     )
-    is_ended = models.BooleanField(default=False)
     organizer = models.TextField()
     referee = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(
@@ -124,6 +125,7 @@ class Registration(models.Model):
         null=True,
         blank=True,
     )
+    email_required = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.tournament.name} - Registration"

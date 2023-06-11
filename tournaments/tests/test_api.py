@@ -58,13 +58,13 @@ def test_api_correctly_returns_tournament_details_for_different_languages(
         tournament.registration, f"description_{language}"
     )
     assert data["registration_info"]["player_limit"] == None
+    assert data["registration_info"]["email_required"] == False
     assert (
         data["registration_info"]["registered_players"]
         == tournament.registered_players.count()
     )
 
     assert data["tournament_info"]["is_draft"] == tournament.is_draft
-    assert data["tournament_info"]["is_ended"] == tournament.is_ended
     assert data["tournament_info"]["organizer"] == tournament.organizer
     assert data["tournament_info"]["referee"] == tournament.referee
     assert data["tournament_info"]["description"] == tournament.description

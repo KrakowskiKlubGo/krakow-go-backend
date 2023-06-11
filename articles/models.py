@@ -4,19 +4,6 @@ from django.db import models
 from django.conf import settings
 
 
-class SubMenu(models.Model):
-    """
-    SubMenu model represents a single submenu for grouping articles in website
-    navigation. Articles without submenu will be displayed in main menu.
-    """
-
-    menu_display_name = models.CharField(max_length=100)
-    language = models.CharField(max_length=2, choices=settings.LANGUAGES)
-
-    def __str__(self):
-        return self.menu_display_name + " (" + self.language + ")"
-
-
 class Article(models.Model):
     """
     Article model represents a single HTML article in a specific language on the
@@ -24,22 +11,12 @@ class Article(models.Model):
     """
 
     code = models.CharField(max_length=36, default=uuid.uuid4)
-    menu_display_name = models.CharField(max_length=100)
     language = models.CharField(max_length=2, choices=settings.LANGUAGES)
     title = models.CharField(max_length=100)
     html_content = models.TextField()
-    is_menu_visible = models.BooleanField(default=False)
-    sub_menu = models.ForeignKey(
-        "articles.SubMenu",
-        on_delete=models.CASCADE,
-        related_name="articles",
-        null=True,
-        blank=True,
-        help_text="If blank then article will be displayed in main menu.",
-    )
 
     def __str__(self):
-        return self.menu_display_name + " (" + self.language + ")"
+        return self.title + " (" + self.language + ")"
 
     class Meta:
         unique_together = ("code", "language")
