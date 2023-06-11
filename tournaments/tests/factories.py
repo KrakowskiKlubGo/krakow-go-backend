@@ -31,7 +31,6 @@ class TournamentFactory(DjangoModelFactory):
     place_pl = factory.Faker("word")
     place_en = factory.Faker("word")
     is_draft = False
-    is_ended = False
     referee = factory.Faker("word")
     description_pl = factory.Faker("text")
     description_en = factory.Faker("text")
@@ -65,6 +64,7 @@ class RegistrationFactory(DjangoModelFactory):
     end_date = datetime.date.today() + datetime.timedelta(days=7)
     description_en = factory.Faker("text")
     description_pl = factory.Faker("text")
+    email_required = False
 
 
 class RegisteredPlayerFactory(DjangoModelFactory):

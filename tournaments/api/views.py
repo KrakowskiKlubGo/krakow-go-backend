@@ -24,7 +24,7 @@ class TournamentViewSet(
     queryset = Tournament.objects.order_by("-start_date")
     lookup_field = "code"
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["is_ended", "is_draft"]
+    filterset_fields = ["is_draft"]
 
     def get_serializer_class(self):
         if self.action == "list":

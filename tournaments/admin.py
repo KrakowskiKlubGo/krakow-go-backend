@@ -40,13 +40,7 @@ class TournamentResultInline(TranslationTabularInline):
 @admin.register(Tournament)
 class TournamentAdmin(CloneTranslationModelAdmin):
     actions = ["export_registered_players_as_csv"]
-    list_display = (
-        "name_pl",
-        "start_date",
-        "place",
-        "is_draft",
-        "is_ended",
-    )
+    list_display = ("name_pl", "start_date", "place", "is_draft")
     inlines = [
         RegistrationInline,
         RegisteredPlayerInline,
@@ -61,7 +55,6 @@ class TournamentAdmin(CloneTranslationModelAdmin):
                     "code",
                     "name",
                     "is_draft",
-                    "is_ended",
                     "image",
                     "description",
                     "start_date",
