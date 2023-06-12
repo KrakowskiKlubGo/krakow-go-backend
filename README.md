@@ -35,4 +35,7 @@ POSTGRES_DB=krakow_go_db
 POSTGRES_USER=krakow_go_user
 POSTGRES_PASSWORD=krakow_go_pass
 POSTGRES_EXPOSE_PORT=5432
+
+DJANGO_DEBUG=True
+SECRET_KEY=...
 ```
