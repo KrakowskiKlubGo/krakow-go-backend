@@ -17,25 +17,9 @@ todo:
 - add redis
 - later extend to support many go clubs
 
-## Running localy
+## Running locally
 run db with docker-compose
 `docker-compose -f local.yml up -d db`
 
-set .env file, for example:
-```
-DB_NAME=krakow_go_db
-DB_USER=krakow_go_user
-DB_PASSWORD=krakow_go_pass
-DB_HOST=localhost
-DB_PORT=5432
+set .env file like .env.example
 
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DB=krakow_go_db
-POSTGRES_USER=krakow_go_user
-POSTGRES_PASSWORD=krakow_go_pass
-POSTGRES_EXPOSE_PORT=5432
-
-DJANGO_DEBUG=True
-SECRET_KEY=...
-```
