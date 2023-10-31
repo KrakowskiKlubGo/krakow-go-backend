@@ -21,7 +21,7 @@ class MeetingViewSet(ReadOnlyModelViewSet):
         return MeetingSerializer
 
     def get_queryset(self):
-        queryset = Meeting.objects.all()
+        queryset = Meeting.objects.filter(is_active=True)
         if self.action == "list":
             queryset = queryset.filter(
                 Q(

@@ -26,6 +26,7 @@ class Meeting(BaseModel):
     end_time = models.TimeField(null=True, blank=True)
     address = models.CharField(max_length=100)
     address_map_link = models.URLField(null=True, blank=True, max_length=400)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
