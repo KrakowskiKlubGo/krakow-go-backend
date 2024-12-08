@@ -1,7 +1,3 @@
-from datetime import timedelta
-
-from django.db.models import Q
-from django.utils.timezone import now
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from meetings.api.serializers import (
@@ -23,14 +19,5 @@ class MeetingViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = Meeting.objects.filter(is_active=True)
         if self.action == "list":
-            queryset = queryset.filter(
-                Q(
-                    onetimemeeting__isnull=False,
-                    onetimemeeting__date__gte=now().date(),
-                    onetimemeeting__date__lt=(now() + timedelta(days=14)).date(),
-                )
-                | Q(
-                    recurringmeeting__isnull=False,
-                )
-            )
+            queryset = queryset.upcoming()
         return queryset

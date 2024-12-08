@@ -18,14 +18,28 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/", include(("tournaments.urls", "tournaments"), namespace="tournaments")),
-    path("api/", include(("meetings.urls", "meetings"), namespace="meetings")),
-    path("api/", include(("articles.urls", "articles"), namespace="articles")),
-    path("api/", include(("sgfs.urls", "sgfs"), namespace="sgfs")),
-    path("api/captcha/", include("rest_captcha.urls")),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+from web_pages import urls as web_urls
+
+urlpatterns = (
+    [
+        path("admin/", admin.site.urls),
+        # API
+        path(
+            "api/",
+            include(("tournaments.urls", "tournaments"), namespace="tournaments"),
+        ),
+        path("api/", include(("meetings.urls", "meetings"), namespace="meetings")),
+        path("api/", include(("articles.urls", "articles"), namespace="articles")),
+        path("api/", include(("sgfs.urls", "sgfs"), namespace="sgfs")),
+        path("api/captcha/", include("rest_captcha.urls")),
+    ]
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    + web_urls.urlpatterns
+)
+
+if settings.DEBUG:
+    urlpatterns += [path("__reload__/", include("django_browser_reload.urls"))]
+
 
 if settings.DEFAULT_FILE_STORAGE == "django.core.files.storage.FileSystemStorage":
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

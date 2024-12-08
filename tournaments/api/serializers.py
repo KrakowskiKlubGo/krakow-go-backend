@@ -117,7 +117,7 @@ class TournamentResultSerializer(serializers.ModelSerializer):
         )
 
 
-class TournamentInfo(serializers.ModelSerializer):
+class TournamentInfoSerializer(serializers.ModelSerializer):
     scheduled_activities = ScheduledActivitySerializer(many=True)
     rules_system = serializers.SerializerMethodField()
 
@@ -167,4 +167,4 @@ class TournamentSerializer(serializers.ModelSerializer):
         )
 
     def get_tournament_info(self, obj):
-        return TournamentInfo(obj).data
+        return TournamentInfoSerializer(obj).data

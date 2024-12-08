@@ -50,6 +50,9 @@ THIRD_PARTY_APPS = [
     "modeltranslation",
     "rest_captcha",
     "django_ace",
+    "tailwind",
+    "theme",
+    "django_distill",
 ]
 
 KRAKOW_GO_BACKEND_APPS = [
@@ -58,6 +61,7 @@ KRAKOW_GO_BACKEND_APPS = [
     "meetings.apps.MeetingsConfig",
     "sgfs.apps.SgfsConfig",
     "articles.apps.ArticlesConfig",
+    "web_pages.apps.WebPagesConfig",
 ]
 
 INSTALLED_APPS = (
@@ -81,7 +85,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["common/templates"],
+        "DIRS": ["common/templates", "web_pages/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -143,11 +147,26 @@ USE_TZ = True
 
 gettext = lambda s: s
 LANGUAGES = [
-    ("pl", gettext("Polish")),
-    ("en", gettext("English")),
+    ("pl", gettext("Polski")),
+    ("en", gettext("Angielski")),
 ]
 MODELTRANSLATION_DEFAULT_LANGUAGE = "pl"
 MODELTRANSLATION_PREPOPULATE_LANGUAGE = "pl"
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
+
+DISTILL_LANGUAGES = [
+    "en",
+]
+DISTILL_DIR = "output"
+DISTILL_SKIP_STATICFILES_DIRS = [
+    "django-browser-reload",
+    "django_ace",
+    "jazzmin",
+    "modeltranslation",
+    "vendor",
+]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -162,6 +181,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Tailwind settings
+TAILWIND_APP_NAME = "theme"
 
 # Jazzmin settings
 JAZZMIN_SETTINGS = {
@@ -191,40 +213,52 @@ JAZZMIN_SETTINGS = {
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
     # Top Menu #
-    "topmenu_links": [],
+    "topmenu_links": [
+        {
+            "name": "krakow.go.art.pl",
+            "url": "https://krakow.go.art.pl/",
+            "new_window": True,
+        },
+        {
+            "name": "Github",
+            "url": "https://github.com/KrakowskiKlubGo/krakow-go-backend/",
+            "new_window": True,
+        },
+    ],
     # Side Menu #
     "show_sidebar": True,
     # Whether to aut expand the menu
     "navigation_expanded": True,
     # Hide these apps when generating side menu e.g (auth)
-    "hide_apps": [],
+    "hide_apps": ["auth", "sites"],
     # Hide these models when generating side menu (e.g auth.user)
-    "hide_models": [],
+    "hide_models": ["common.DummyModel"],
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
     "order_with_respect_to": [
-        "auth",
+        "common",
+        "articles",
+        "meetings",
+        "tournaments",
+        "sgfs",
     ],
     # Custom links to append to app groups, keyed on app name
     "custom_links": {
-        "team": [
+        "common": [
             {
-                # Any Name you like
-                "name": "Make Messages",
-                # url name e.g `admin:index`, relative urls e.g `/admin/index` or absolute urls e.g `https://domain.com/admin/index`
-                "url": "make_messages",
-                # any font-awesome icon, see list here https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2 (optional)
-                "icon": "fas fa-comments",
-                # a list of permissions the user must have to see this link (optional)
-                "permissions": ["books.view_book"],
+                "name": "Przebuduj statyczne pliki",
+                "url": "admin:index",
+                "icon": "fas fa-sync",
             }
         ]
     },
     # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
     # for the full list of 5.13.0 free icon classes
     "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
+        "articles.article": "fas fa-newspaper",
+        "meetings.RecurringMeeting": "fas fa-calendar-alt",
+        "meetings.OneTimeMeeting": "fas fa-calendar",
+        "sgfs.Sgf": "fas fa-file-alt",
+        "tournaments.TournamentInfo": "fas fa-trophy",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",

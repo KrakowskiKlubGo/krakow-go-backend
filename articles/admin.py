@@ -14,7 +14,12 @@ class ArticleImageInline(admin.TabularInline):
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     formfield_overrides = {TextField: {"widget": CustomTextFieldWidget}}
-    list_display = ("code", "language")
+    list_display = (
+        "code",
+        "language",
+        "add_to_menu",
+        "menu_order",
+    )
     inlines = [ArticleImageInline]
 
 

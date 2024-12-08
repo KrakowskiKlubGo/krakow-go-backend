@@ -1,6 +1,8 @@
+from django.contrib import admin
 from django_ace import AceWidget
 from model_clone import CloneModelAdminMixin
 from modeltranslation.admin import TranslationAdmin
+from common.models import BaseModel, DummyModel
 
 
 class CustomTextFieldWidget(AceWidget):
@@ -10,3 +12,6 @@ class CustomTextFieldWidget(AceWidget):
 
 class CloneTranslationModelAdmin(CloneModelAdminMixin, TranslationAdmin):
     pass
+
+
+admin.site.register(DummyModel)

@@ -15,3 +15,7 @@ class Sgf(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Plik SGF"
+        verbose_name_plural = "Pliki SGF"

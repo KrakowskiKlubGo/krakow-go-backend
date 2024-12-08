@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.db.models import Q
+from django.utils.timezone import now
 
 from common.models import BaseModel
 from common.storage import RawFileField
@@ -10,6 +12,33 @@ from tournaments.const import (
     PlayerRank,
     TournamentResultType,
 )
+
+
+class TournamentQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(is_draft=False)
+
+    def upcoming(self):
+        return self.filter(
+            Q(
+                start_date__gte=now().date(),
+                end_date__isnull=True,
+            )
+            | Q(
+                end_date__gte=now().date(),
+            ),
+        )
+
+    def past(self):
+        return self.filter(
+            Q(
+                start_date__lt=now().date(),
+                end_date__isnull=True,
+            )
+            | Q(
+                end_date__lt=now().date(),
+            ),
+        )
 
 
 class Tournament(BaseModel):
@@ -103,8 +132,14 @@ class Tournament(BaseModel):
         "scheduled_activities",
     ]
 
+    objects = TournamentQuerySet.as_manager()
+
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Turniej (stare)"
+        verbose_name_plural = "Turnieje (stare)"
 
 
 class Registration(models.Model):
@@ -216,3 +251,42 @@ class TournamentResult(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TournamentInfo(BaseModel):
+    """
+    Simple Model for a single go tournament.
+    Contains basic the information about the tournament.
+    """
+
+    name = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField(
+        null=True,
+        blank=True,
+        help_text="If tournament lasts one day then leave this field empty.",
+    )
+
+    description = models.TextField(
+        null=True,
+        blank=True,
+    )
+    registration_link = models.URLField(
+        null=True,
+        blank=True,
+        max_length=400,
+    )
+    results_link = models.URLField(
+        null=True,
+        blank=True,
+        max_length=400,
+    )
+
+    objects = TournamentQuerySet.as_manager()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Turniej"
+        verbose_name_plural = "Turnieje"

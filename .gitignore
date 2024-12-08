@@ -52,7 +52,6 @@ coverage.xml
 .pytest_cache/
 
 # Translations
-*.mo
 *.pot
 
 # Django stuff:
@@ -131,3 +130,7 @@ dmypy.json
 data/
 media/
 .idea/
+
+staticfiles_build/
+output/
+/output/

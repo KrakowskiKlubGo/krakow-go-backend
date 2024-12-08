@@ -11,6 +11,11 @@ class Article(models.Model):
     """
 
     code = models.CharField(max_length=36, default=uuid.uuid4)
+    add_to_menu = models.BooleanField(default=False)
+    menu_order = models.IntegerField(
+        default=0,
+        help_text="Articles with lower number will be displayed first in menu.",
+    )
     language = models.CharField(max_length=2, choices=settings.LANGUAGES)
     title = models.CharField(max_length=100)
     html_content = models.TextField()
@@ -20,6 +25,8 @@ class Article(models.Model):
 
     class Meta:
         unique_together = ("code", "language")
+        verbose_name = "Artykuł"
+        verbose_name_plural = "Artykuły"
 
 
 class ArticleImage(models.Model):
@@ -33,3 +40,7 @@ class ArticleImage(models.Model):
         related_name="images",
     )
     image = models.ImageField(upload_to="articles/images/")
+
+    class Meta:
+        verbose_name = "Obrazek artykułu"
+        verbose_name_plural = "Obrazki artykułów"
