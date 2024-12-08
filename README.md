@@ -18,6 +18,9 @@ todo:
 - later extend to support many go clubs
 
 ## Running locally
+install django-browser-reload
+`pip install 'django-tailwind[reload]'`
+
 run db with docker-compose
 `docker-compose -f local.yml up -d db`
 

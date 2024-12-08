@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-01 16:35+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: common/templates/admin/change_form_object_tools.html:9
+msgid "Duplicate"
+msgstr "Duplicate"
+
+#: config/settings/base.py:150
+msgid "Polski"
+msgstr "Polish"
+
+#: config/settings/base.py:151
+msgid "Angielski"
+msgstr "English"
+
+#: web_pages/templates/index.html:10
+msgid "Krakowski Klub Go"
+msgstr "Cracow Go Club"
+
+#: web_pages/templates/index.html:17
+msgid "Wydarzenia"
+msgstr "Events"
+
+#: web_pages/templates/index.html:25 web_pages/templates/index.html:36
+msgid "Więcej"
+msgstr "More"
+
+#: web_pages/templates/index.html:45
+msgid "Klub"
+msgstr "Club"
+
+#: web_pages/templates/index.html:47
+msgid ""
+"Krakowski Klub Go to miejsce, w którym spotykają się miłośnicy gry Go. W "
+"naszym klubie znajdziesz zarówno początkujących, jak i zaawansowanych "
+"graczy. Zapraszamy na cotygodniowe spotkania oraz turnieje."
+msgstr ""
+"Cracow Go Club is a place where Go enthusiasts meet. In our club you will "
+"find both beginners and advanced players. We invite you to weekly meetings "
+"and tournaments."
+
+#: web_pages/templates/index.html:84
+msgid "Kontakt"
+msgstr "Contact"
+
+#: web_pages/templates/index.html:86
+msgid "Możesz się z nami skontaktować poprzez następujące kanały"
+msgstr "You can contact us through the following channels"
+
+#: web_pages/templates/tournaments.html:7
+msgid "Nadchodzące turnieje"
+msgstr "Upcoming tournaments"
+
+#: web_pages/templates/tournaments.html:25
+msgid "Zakończone turnieje"
+msgstr "Finished tournaments"
+
+#: web_pages/views.py:18
+msgid "TURNIEJE"
+msgstr "TOURNAMENTS"

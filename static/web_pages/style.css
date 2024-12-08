@@ -1,0 +1,6 @@
+.background {
+    background-image:url("images/bg_transparent.png") ;
+    background-color: rgba(255,255,255,0.85);
+    background-blend-mode: overlay;
+}
+

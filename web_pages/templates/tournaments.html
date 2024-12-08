@@ -1,0 +1,56 @@
+{% extends 'base_post.html' %}
+{% load i18n %}
+
+
+{% block post_content %}
+    {% if upcoming_tournaments %}
+        <h1 class="text-3xl font-bold">{% translate "Nadchodzące turnieje" %}</h1>
+        <ul class="menu menu-lg bg-base-100 rounded-box">
+            {% for tournament in upcoming_tournaments %}
+                <li>
+                    <a class="no-underline card-compact p-0">
+                        <div class="card-body p-0">
+                            <p class="card-title text-2xl m-0">{{ tournament.name }}</p>
+                            {% if tournament.end_date == None %}
+                                <p class="m-0">{{ tournament.start_date }}</p>
+                            {% else %}
+                                <p class="m-0">{{ tournament.start_date }} - {{ tournament.end_date }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h1 class="text-3xl font-bold">{% translate "Zakończone turnieje" %}</h1>
+    <ul class="menu menu-lg bg-base-100 rounded-box">
+        {% for tournament in past_tournaments %}
+            {% if tournament.results_link == None %}
+                <li>
+                    <a class="no-underline card-compact p-0">
+                        <div class="card-body p-0">
+                            <p class="card-title text-2xl m-0">{{ tournament.name }}</p>
+                            {% if tournament.end_date == None %}
+                                <p class="m-0">{{ tournament.start_date }}</p>
+                            {% else %}
+                                <p class="m-0">{{ tournament.start_date }} - {{ tournament.end_date }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                <a class="no-underline card-compact p-0" target="_blank" href="{{ tournament.results_link }}">
+                    <div class="card-body p-0">
+                        <p class="card-title text-2xl m-0">{{ tournament.name }}</p>
+                        {% if tournament.end_date == None %}
+                            <p class="m-0">{{ tournament.start_date }}</p>
+                        {% else %}
+                            <p class="m-0">{{ tournament.start_date }} - {{ tournament.end_date }}</p>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

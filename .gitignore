@@ -131,3 +131,7 @@ dmypy.json
 data/
 media/
 .idea/
+
+staticfiles_build/
+output/
+/output/

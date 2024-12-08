@@ -2,15 +2,17 @@ import csv
 
 from django.contrib import admin
 from django.http import HttpResponse
+from model_clone import CloneModelAdminMixin
 from modeltranslation.admin import TranslationTabularInline
 
 from common.admin import CloneTranslationModelAdmin
 from tournaments.models import (
     Registration,
-    Tournament,
     RegisteredPlayer,
     ScheduledActivity,
     TournamentResult,
+    TournamentInfo,
+    Tournament,
 )
 
 
@@ -117,3 +119,11 @@ class TournamentAdmin(CloneTranslationModelAdmin):
     export_registered_players_as_csv.short_description = (
         "Export Registered Players as CSV"
     )
+
+
+@admin.register(TournamentInfo)
+class TournamentInfoAdmin(
+    CloneModelAdminMixin,
+    admin.ModelAdmin,
+):
+    list_display = ("name", "start_date", "end_date")
