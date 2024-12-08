@@ -23,7 +23,6 @@ from web_pages import urls as web_urls
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("__reload__/", include("django_browser_reload.urls")),
         # API
         path(
             "api/",
@@ -37,6 +36,9 @@ urlpatterns = (
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + web_urls.urlpatterns
 )
+
+if settings.DEBUG:
+    urlpatterns += [path("__reload__/", include("django_browser_reload.urls"))]
 
 
 if settings.DEFAULT_FILE_STORAGE == "django.core.files.storage.FileSystemStorage":
