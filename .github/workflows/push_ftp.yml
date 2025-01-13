@@ -50,12 +50,12 @@ jobs:
   
       - name: 📦 Build distil site
         run: |
-          python manage.py distill-local --force /output
+          python manage.py distill-local --force output/
   
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          local-dir: /output/
+          local-dir: output/
           server-dir: /public_html/
           server: ${{ secrets.FTP_LOCATION }}
           username: ${{ secrets.FTP_USERNAME }}
