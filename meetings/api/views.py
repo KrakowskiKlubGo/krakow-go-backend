@@ -27,7 +27,7 @@ class MeetingViewSet(ReadOnlyModelViewSet):
                 Q(
                     onetimemeeting__isnull=False,
                     onetimemeeting__date__gte=now().date(),
-                    onetimemeeting__date__lt=(now() + timedelta(days=7)).date(),
+                    onetimemeeting__date__lt=(now() + timedelta(days=14)).date(),
                 )
                 | Q(
                     recurringmeeting__isnull=False,
