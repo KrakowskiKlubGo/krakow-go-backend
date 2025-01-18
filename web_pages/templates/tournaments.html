@@ -8,7 +8,7 @@
         <ul class="menu menu-lg bg-base-100 rounded-box">
             {% for tournament in upcoming_tournaments %}
                 <li>
-                    <a class="no-underline card-compact p-0">
+                    <a class="no-underline card-compact p-0" href="{{ tournament.registration_link }}">
                         <div class="card-body p-0">
                             <p class="card-title text-2xl m-0">{{ tournament.name }}</p>
                             {% if tournament.end_date == None %}
