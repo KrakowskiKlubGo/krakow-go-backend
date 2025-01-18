@@ -23,6 +23,11 @@ from web_pages import urls as web_urls
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
+        # trigger_github_action view
+        path(
+            "command/",
+            include(("common.urls", "common"), namespace="common"),
+        ),
         # API
         path(
             "api/",

@@ -246,7 +246,7 @@ JAZZMIN_SETTINGS = {
         "common": [
             {
                 "name": "Przebuduj statyczne pliki",
-                "url": "admin:index",
+                "url": "common:trigger_github_action",
                 "icon": "fas fa-sync",
             }
         ]
@@ -327,3 +327,6 @@ REST_CAPTCHA = {
     "FILTER_FUNCTION": "rest_captcha.captcha.filter_default",
     "NOISE_FUNCTION": "rest_captcha.captcha.noise_default",
 }
+
+# github
+GITHUB_ACCESS_TOKEN = env("GITHUB_ACCESS_TOKEN") or ""
