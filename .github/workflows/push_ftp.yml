@@ -5,8 +5,8 @@ on:
   push:
     branches: [ "main" ]
     # every Thursday on 1 AM after club meeting
-    #schedule:
-    #- cron: "0 3 * * 4"
+  schedule:
+    - cron: "0 3 * * 4"
   workflow_dispatch:
 jobs:
   web-deploy:
