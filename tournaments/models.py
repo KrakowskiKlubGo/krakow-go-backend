@@ -38,7 +38,7 @@ class TournamentQuerySet(models.QuerySet):
             | Q(
                 end_date__lt=now().date(),
             ),
-        )
+        ).order_by("-start_date")
 
 
 class Tournament(BaseModel):
