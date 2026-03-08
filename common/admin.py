@@ -12,6 +12,3 @@ class CustomTextFieldWidget(AceWidget):
 
 class CloneTranslationModelAdmin(CloneModelAdminMixin, TranslationAdmin):
     pass
-
-
-admin.site.register(DummyModel)

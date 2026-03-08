@@ -20,10 +20,10 @@ class MeetingQuerySet(models.QuerySet):
                 onetimemeeting__isnull=False,
                 onetimemeeting__date__gte=now().date(),
                 onetimemeeting__date__lt=(now() + timedelta(days=14)).date(),
-            )
-            | Q(
-                recurringmeeting__isnull=False,
             ),
+            # | Q(
+            #     recurringmeeting__isnull=False,
+            # ),
             is_active=True,
         )
 
